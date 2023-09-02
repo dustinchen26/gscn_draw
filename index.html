@@ -22,7 +22,7 @@
             font-family: Arial, Helvetica, sans-serif;
 
             /* 設置字體大小 */
-            font-size: 14px;
+            font-size: 16px;
         }
 
         /* 定義不同顏色的標籤和輸入框 */
@@ -88,7 +88,7 @@
 
     <br>
 
-    <canvas id="myCanvas" width="480" height="280" style="border:1px solid #000;"></canvas>
+    <canvas id="myCanvas" width="490" height="300" style="border:1px solid #000;"></canvas>
 
     <script>
         function drawLines() {
@@ -130,9 +130,9 @@
             // 繪製第一條線段，紅色
             drawVerticalLine(ctx, x, canvas.height - (y1 - minY) * scaleFactor, canvas.height - (y2 - minY) *
                 scaleFactor, "#FF0000");
-            //labelNumber(ctx, x + 10, canvas.height - (y1 - minY) * scaleFactor - 2, "y1=" + y1, "#FF0000");
-            //labelNumber(ctx, x + 10, canvas.height - (y2 - minY) * scaleFactor + 5, "y2=" + y2, "#FF0000");
-            labelNumber(ctx, x + 10, canvas.height - ((y1 + y2) / 2 - minY) * scaleFactor + 3, "absFreqSsb=" +
+            //labelNumber(ctx, x + 7, canvas.height - (y1 - minY) * scaleFactor - 2, "y1=" + y1, "#FF0000");
+            //labelNumber(ctx, x + 7, canvas.height - (y2 - minY) * scaleFactor + 5, "y2=" + y2, "#FF0000");
+            labelNumber(ctx, x + 7, canvas.height - ((y1 + y2) / 2 - minY) * scaleFactor + 3, "absFreqSsb=" +
                 absFreqSsb,
                 "#FF0000");
             x += spacing;
@@ -140,17 +140,17 @@
             // 繪製第二條線段，深綠色
             drawVerticalLine(ctx, x, canvas.height - (y3 - minY) * scaleFactor, canvas.height - (y4 - minY) *
                 scaleFactor, "#006400");
-            labelNumber(ctx, x + 10, canvas.height - (y3 - minY) * scaleFactor - 5, "CS0_low=" + y3, "#006400");
-            labelNumber(ctx, x + 10, canvas.height - (y4 - minY) * scaleFactor + 10, "CS0_High=" + y4, "#006400");
+            labelNumber(ctx, x + 7, canvas.height - (y3 - minY) * scaleFactor - 5, "CS0_low=" + y3, "#006400");
+            labelNumber(ctx, x + 7, canvas.height - (y4 - minY) * scaleFactor + 10, "CS0_High=" + y4, "#006400");
             x += spacing;
 
             // 繪製第三條線段，藍色
             drawVerticalLine(ctx, x, canvas.height - (y5 - minY) * scaleFactor, canvas.height - (y6 - minY) *
                 scaleFactor, "#0000FF");
-            labelNumber(ctx, x + 10, canvas.height - (y5 - minY) * scaleFactor - 5, "carrier_low=" + y5, "#0000FF");
-            labelNumber(ctx, x + 10, canvas.height - ((y5 + y6) / 2 - minY) * scaleFactor, "nDlCenterFreq=" +
+            labelNumber(ctx, x + 7, canvas.height - (y5 - minY) * scaleFactor - 5, "carrier_low=" + y5, "#0000FF");
+            labelNumber(ctx, x + 7, canvas.height - ((y5 + y6) / 2 - minY) * scaleFactor, "nDlCenterFreq=" +
                 nDlCenterFreq, "#0000FF");
-            labelNumber(ctx, x + 10, canvas.height - (y6 - minY) * scaleFactor + 10, "carrier_high=" + y6, "#0000FF");
+            labelNumber(ctx, x + 7, canvas.height - (y6 - minY) * scaleFactor + 10, "carrier_high=" + y6, "#0000FF");
 
             // 繪製底部水平線
             ctx.lineWidth = 1;
@@ -182,14 +182,14 @@
 
             // 在水平線上方標示 absFreqPointA 的數值
             ctx.fillStyle = "#FFA500"; // 橙色文字
-            ctx.font = "12px Arial";
+            ctx.font = "13px Arial";
             ctx.fillText("absFreqPointA=" + absFreqPointA, 10, y - 3);
         }
 
 
         function labelNumber(ctx, x, y, label, color) {
             ctx.fillStyle = color || "#000";
-            ctx.font = "12px Arial";
+            ctx.font = "13px Arial";
             ctx.fillText(label, x, y);
         }
     </script>
