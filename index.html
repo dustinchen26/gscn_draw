@@ -1,0 +1,198 @@
+<!-- 
+  Copyright © [2023] [Dustin_Chen]. All rights reserved.
+  Author: Dustin_Chen
+  Email:  Dustin_Chen@compal.com or chuhpsdustin@gmail.com
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Plot Ssb, CS0, carrier, PointA</title>
+    <style>
+        /* 使用CSS調整輸入框的寬度 */
+        input[type="number"] {
+            width: 80px;
+            /* 調整寬度，可以根據需要更改 */
+        }
+
+        body {
+            /* 設置字體 */
+            font-family: Arial, Helvetica, sans-serif;
+
+            /* 設置字體大小 */
+            font-size: 14px;
+        }
+
+        /* 定義不同顏色的標籤和輸入框 */
+        .label-red {
+            color: #FF0000;
+            /* 紅色 */
+        }
+
+        .label-green {
+            color: #006400;
+            /* 深綠色 */
+        }
+
+        .label-blue {
+            color: #0000FF;
+            /* 藍色 */
+        }
+
+        .label-orange {
+            color: #FFA500;
+            /* 橙色 */
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Plot Ssb, CS0, carrier, PointA</h2>
+    <p style="margin: 0;">Author: Dustin_Chen, email: <a href="mailto:Dustin_Chen@compal.com"
+            style="line-height: 1;">Dustin_Chen@compal.com</a> or <a href="mailto:chuhpsdustin@gmail.com"
+            style="line-height: 1;">chuhpsdustin@gmail.com</a></p>
+    <form>
+        <ul>
+            <li><label class="label-orange" for="absFreqPointA">absFreqPointA:</label>
+                <input type="number" id="absFreqPointA" placeholder="輸入 absFreqPointA" value="3554700">
+            </li>
+            <li><label class="label-red" for="absFreqSsb">absFreqSsb:</label>
+                <input type="number" id="absFreqSsb" placeholder="輸入 absFreqSsb" value="3563040">
+            </li>
+            <li><label class="label-blue" for="carrierBw">carrierBw:</label>
+                <input type="number" id="carrierBw" placeholder="輸入 carrierBw" value="273">
+            </li>
+            <li><label class="label-blue" for="nDlCenterFreq">nDlCenterFreq:</label>
+                <input type="number" id="nDlCenterFreq" placeholder="輸入 nDlCenterFreq" value="3603840">
+            </li>
+            <li><label class="label-red" for="Kssb">Kssb:</label>
+                <input type="number" id="Kssb" placeholder="輸入 Kssb" value="4">
+            </li>
+            <li><label class="label-red" for="offsetToPointA">offsetToPointA:</label>
+                <input type="number" id="offsetToPointA" placeholder="輸入 offsetToPointA" value="26">
+            </li>
+            <li><label class="label-blue" for="offsetToCarrier">offsetToCarrier:</label>
+                <input type="number" id="offsetToCarrier" placeholder="輸入 offsetToCarrier" value="0">
+            </li>
+            <li><label class="label-green" for="coreset0offset">coreset0offset:</label>
+                <input type="number" id="coreset0offset" placeholder="輸入 coreset0offset" value="12">
+            </li>
+            <li><label class="label-green" for="coreset0RB">coreset0RB:</label>
+                <input type="number" id="coreset0RB" placeholder="輸入 coreset0RB" value="48">
+            </li>
+        </ul>
+        <button type="button" onclick="drawLines()">draw</button>
+    </form>
+
+    <br>
+
+    <canvas id="myCanvas" width="480" height="280" style="border:1px solid #000;"></canvas>
+
+    <script>
+        function drawLines() {
+            var canvas = document.getElementById("myCanvas");
+            var ctx = canvas.getContext("2d");
+
+            var carrierBw = parseInt(document.getElementById("carrierBw").value);
+            var absFreqPointA = parseInt(document.getElementById("absFreqPointA").value);
+            var absFreqSsb = parseInt(document.getElementById("absFreqSsb").value);
+            var nDlCenterFreq = parseInt(document.getElementById("nDlCenterFreq").value);
+            var Kssb = parseInt(document.getElementById("Kssb").value);
+            var offsetToPointA = parseInt(document.getElementById("offsetToPointA").value);
+            var offsetToCarrier = parseInt(document.getElementById("offsetToCarrier").value);
+            var coreset0offset = parseInt(document.getElementById("coreset0offset").value);
+            var coreset0RB = parseInt(document.getElementById("coreset0RB").value);
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // 計算y坐標
+            var y1 = absFreqSsb - 10 * 12 * 30;
+            var y2 = absFreqSsb + 10 * 12 * 30;
+            var y3 = absFreqSsb - 10 * 12 * 30 - Kssb * 15 - coreset0offset * 12 * 30;
+            var y4 = absFreqSsb - 10 * 12 * 30 - Kssb * 15 - coreset0offset * 12 * 30 + coreset0RB * 12 * 30;
+            var y5 = absFreqPointA + offsetToCarrier * 12 * 30;
+            var y6 = absFreqPointA + offsetToCarrier * 12 * 30 + carrierBw * 12 * 30;
+
+            // 找到最小和最大的y坐標值
+            var minY = Math.min(y1, y2, y3, y4, y5, y6);
+            var maxY = Math.max(y1, y2, y3, y4, y5, y6);
+
+            // 計算縮放因子以填滿畫布
+            var scaleFactor = canvas.height / (maxY - minY);
+
+            // 設置線的粗度為10倍
+            ctx.lineWidth = 10;
+            var x = 20; // 設定垂直線的x坐標
+            var spacing = 150; // 設定間距
+
+            // 繪製第一條線段，紅色
+            drawVerticalLine(ctx, x, canvas.height - (y1 - minY) * scaleFactor, canvas.height - (y2 - minY) *
+                scaleFactor, "#FF0000");
+            //labelNumber(ctx, x + 10, canvas.height - (y1 - minY) * scaleFactor - 2, "y1=" + y1, "#FF0000");
+            //labelNumber(ctx, x + 10, canvas.height - (y2 - minY) * scaleFactor + 5, "y2=" + y2, "#FF0000");
+            labelNumber(ctx, x + 10, canvas.height - ((y1 + y2) / 2 - minY) * scaleFactor + 3, "absFreqSsb=" +
+                absFreqSsb,
+                "#FF0000");
+            x += spacing;
+
+            // 繪製第二條線段，深綠色
+            drawVerticalLine(ctx, x, canvas.height - (y3 - minY) * scaleFactor, canvas.height - (y4 - minY) *
+                scaleFactor, "#006400");
+            labelNumber(ctx, x + 10, canvas.height - (y3 - minY) * scaleFactor - 5, "CS0_low=" + y3, "#006400");
+            labelNumber(ctx, x + 10, canvas.height - (y4 - minY) * scaleFactor + 10, "CS0_High=" + y4, "#006400");
+            x += spacing;
+
+            // 繪製第三條線段，藍色
+            drawVerticalLine(ctx, x, canvas.height - (y5 - minY) * scaleFactor, canvas.height - (y6 - minY) *
+                scaleFactor, "#0000FF");
+            labelNumber(ctx, x + 10, canvas.height - (y5 - minY) * scaleFactor - 5, "carrier_low=" + y5, "#0000FF");
+            labelNumber(ctx, x + 10, canvas.height - ((y5 + y6) / 2 - minY) * scaleFactor, "nDlCenterFreq=" +
+                nDlCenterFreq, "#0000FF");
+            labelNumber(ctx, x + 10, canvas.height - (y6 - minY) * scaleFactor + 10, "carrier_high=" + y6, "#0000FF");
+
+            // 繪製底部水平線
+            ctx.lineWidth = 1;
+            ctx.strokeStyle = "#000000";
+            drawHorizontalLine(ctx, minY, maxY, absFreqPointA, canvas);
+        }
+
+        function drawVerticalLine(ctx, x, y1, y2, color) {
+            ctx.beginPath();
+            ctx.moveTo(x, y1);
+            ctx.lineTo(x, y2);
+            ctx.strokeStyle = color || "#000";
+            ctx.stroke();
+        }
+
+        function drawHorizontalLine(ctx, minY, maxY, absFreqPointA, canvas) {
+            // 設置橙色的線段顏色
+            ctx.strokeStyle = "#FFA500"; // 橙色
+            ctx.lineWidth = 5; // 線寬
+
+            // 計算水平線的Y坐標位置
+            var y = canvas.height - (absFreqPointA - minY) * (canvas.height / (maxY - minY));
+
+            // 繪製水平線
+            ctx.beginPath();
+            ctx.moveTo(0, y);
+            ctx.lineTo(canvas.width, y);
+            ctx.stroke();
+
+            // 在水平線上方標示 absFreqPointA 的數值
+            ctx.fillStyle = "#FFA500"; // 橙色文字
+            ctx.font = "12px Arial";
+            ctx.fillText("absFreqPointA=" + absFreqPointA, 10, y - 3);
+        }
+
+
+        function labelNumber(ctx, x, y, label, color) {
+            ctx.fillStyle = color || "#000";
+            ctx.font = "12px Arial";
+            ctx.fillText(label, x, y);
+        }
+    </script>
+</body>
+
+</html>
