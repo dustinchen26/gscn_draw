@@ -172,8 +172,8 @@
             ctx.strokeStyle = "#FFA500"; // 橙色
             ctx.lineWidth = 5; // 線寬
 
-            // 計算水平線的Y坐標位置
-            var y = canvas.height - (absFreqPointA - minY) * (canvas.height / (maxY - minY));
+    		// 計算水平線的Y坐標位置，並確保在畫布內
+    		var y = Math.max(0, Math.min(canvas.height, canvas.height - (absFreqPointA - minY) * (canvas.height / (maxY - minY))));
 
             // 繪製水平線
             ctx.beginPath();
