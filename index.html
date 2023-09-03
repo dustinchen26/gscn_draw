@@ -45,6 +45,15 @@
             color: #FFA500;
             /* 橙色 */
         }
+
+        /* 控制超連結顏色為藍色 */
+        a {
+            color: blue;
+        }
+
+        .blue-link {
+            color: blue;
+        }
     </style>
 </head>
 
@@ -55,41 +64,58 @@
             style="line-height: 1;">chuhpsdustin@gmail.com</a></p>
     <form>
         <ul>
-            <li><label class="label-orange" for="absFreqPointA">absFreqPointA:</label>
-                <input type="number" id="absFreqPointA" placeholder="輸入 absFreqPointA" value="3554700">
+            <li> Calculate
+                <ul>
+                    <li>
+                        <p style="margin-top: 0; margin-bottom: 0"><a
+                                href="https://dustinchen26.github.io/gscn_advance_calculator/" target="_blank"
+                                class="blue-link">https://dustinchen26.github.io/gscn_advance_calculator/</a></p>
+                    </li>
+                </ul>
             </li>
-            <li><label class="label-red" for="absFreqSsb">absFreqSsb:</label>
-                <input type="number" id="absFreqSsb" placeholder="輸入 absFreqSsb" value="3563040">
-            </li>
-            <li><label class="label-blue" for="carrierBw">carrierBw:</label>
-                <input type="number" id="carrierBw" placeholder="輸入 carrierBw" value="273">
-            </li>
-            <li><label class="label-blue" for="nDlCenterFreq">nDlCenterFreq:</label>
-                <input type="number" id="nDlCenterFreq" placeholder="輸入 nDlCenterFreq" value="3603840">
-            </li>
-            <li><label class="label-red" for="Kssb">Kssb:</label>
-                <input type="number" id="Kssb" placeholder="輸入 Kssb" value="4">
-            </li>
-            <li><label class="label-red" for="offsetToPointA">offsetToPointA:</label>
-                <input type="number" id="offsetToPointA" placeholder="輸入 offsetToPointA" value="26">
-            </li>
-            <li><label class="label-blue" for="offsetToCarrier">offsetToCarrier:</label>
-                <input type="number" id="offsetToCarrier" placeholder="輸入 offsetToCarrier" value="0">
-            </li>
-            <li><label class="label-green" for="coreset0RB">coreset0RB:</label>
-                <input type="number" id="coreset0RB" placeholder="輸入 coreset0RB" value="48">
-            </li>			
-            <li><label class="label-green" for="coreset0offset">coreset0offset:</label>
-                <input type="number" id="coreset0offset" placeholder="輸入 coreset0offset" value="12">
-            </li>
+            <li> draw
+                <ul>
+                    <li>
+                        <label class="label-orange" for="absFreqPointA">absFreqPointA:</label>
+                        <input type="number" id="absFreqPointA" placeholder="輸入 absFreqPointA" value="3554700">
+                    </li>
+                    <li><label class="label-red" for="absFreqSsb">absFreqSsb:</label>
+                        <input type="number" id="absFreqSsb" placeholder="輸入 absFreqSsb" value="3563040">
+                    </li>
+                    <li><label class="label-blue" for="carrierBw">carrierBw:</label>
+                        <input type="number" id="carrierBw" placeholder="輸入 carrierBw" value="273">
+                    </li>
+                    <li><label class="label-blue" for="nDlCenterFreq">nDlCenterFreq:</label>
+                        <input type="number" id="nDlCenterFreq" placeholder="輸入 nDlCenterFreq" value="3603840">
+                    </li>
+                    <li><label class="label-red" for="Kssb">Kssb:</label>
+                        <input type="number" id="Kssb" placeholder="輸入 Kssb" value="4">
+                    </li>
+                    <li><label class="label-red" for="offsetToPointA">offsetToPointA:</label>
+                        <input type="number" id="offsetToPointA" placeholder="輸入 offsetToPointA" value="26">
+                    </li>
+                    <li><label class="label-blue" for="offsetToCarrier">offsetToCarrier:</label>
+                        <input type="number" id="offsetToCarrier" placeholder="輸入 offsetToCarrier" value="0">
+                    </li>
+                    <li><label class="label-green" for="coreset0RB">coreset0RB:</label>
+                        <input type="number" id="coreset0RB" placeholder="輸入 coreset0RB" value="48">
+                    </li>
+                    <li><label class="label-green" for="coreset0offset">coreset0offset:</label>
+                        <input type="number" id="coreset0offset" placeholder="輸入 coreset0offset" value="12">
+                    </li>
 
+                </ul>
+                <button type="button" onclick="drawLines()">draw</button>
+                <br><br>
+                <canvas id="myCanvas" width="490" height="300" style="border:1px solid #000;"></canvas>
+            </li>
         </ul>
-        <button type="button" onclick="drawLines()">draw</button>
+
     </form>
 
     <br>
 
-    <canvas id="myCanvas" width="490" height="300" style="border:1px solid #000;"></canvas>
+
 
     <script>
         function drawLines() {
@@ -172,8 +198,9 @@
             ctx.strokeStyle = "#FFA500"; // 橙色
             ctx.lineWidth = 5; // 線寬
 
-    		// 計算水平線的Y坐標位置，並確保在畫布內
-    		var y = Math.max(0, Math.min(canvas.height, canvas.height - (absFreqPointA - minY) * (canvas.height / (maxY - minY))));
+            // 計算水平線的Y坐標位置，並確保在畫布內
+            var y = Math.max(0, Math.min(canvas.height, canvas.height - (absFreqPointA - minY) * (canvas.height / (
+                maxY - minY))));
 
             // 繪製水平線
             ctx.beginPath();
